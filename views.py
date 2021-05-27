@@ -9,7 +9,19 @@ def user_create(request):
     #リクエストメソッドがGETならユーザー登録画面に遷移
     if request.method == 'GET':
         return render(request, 'account/user_create.html')
+    # Userモデルの生成
+    new_user = models.User()
 
+    new_user.name = request.POST['name']
+    new_user.email = request.POST['email']
+    new_user.password = request.POST['password']
+
+    new_user.save()
+
+    context = {
+        'name': new_user.name
+    }
+    return render(request, 'account/user_create_commit.html', context)
 
 def user_list(request):
     queryset = models.User.objects.all()
@@ -24,3 +36,9 @@ def user_detail(request, pk):
         'user':queryset
     }
     return render(request, 'account/user_detail.html', context)
+
+def user_correct(request,pk):
+    pass
+
+def user_update(request):
+    pass
